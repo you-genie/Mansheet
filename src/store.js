@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     articles: require('@/data/articles.json'),
+    schedules: require ('@/data/schedules.json'),
     drawer: false,
     items: [
       {
@@ -13,12 +14,31 @@ export default new Vuex.Store({
         to: '/'
       },
       {
-        text: 'About',
-        href: '#about'
+        text: 'Make Group',
+        to: '/gen_group'
       }
     ]
   },
   getters: {
+    groups: state => {
+      const groups = []
+
+      for (const schedule of state.schedules) {
+        if (
+          !schedule.group ||
+          groups.find(group => group.text === schedule.group)
+        ) continue
+
+        const text = schedule.group
+
+        groups.push({
+          text,
+          to: `/group/${text}`
+        })
+      }
+
+      return groups.sort().slice(0, 4)
+    },
     categories: state => {
       const categories = []
 
@@ -39,7 +59,7 @@ export default new Vuex.Store({
       return categories.sort().slice(0, 4)
     },
     links: (state, getters) => {
-      return state.items.concat(getters.categories)
+      return state.items.concat(getters.groups)
     }
   },
   mutations: {

@@ -39,6 +39,21 @@
           solo-inverted
           style="max-width: 300px;"
         />
+        <v-spacer />
+        <v-btn
+          class="ml-0 hidden-sm-and-down"
+          flat
+          @click="onClick($event, item)"
+        >
+          sign in
+        </v-btn>
+        <v-btn
+          class="ml-0 hidden-sm-and-down"
+          flat
+          @click="onClick($event, item)"
+        >
+          sign up
+        </v-btn>
       </v-layout>
     </v-container>
   </v-toolbar>

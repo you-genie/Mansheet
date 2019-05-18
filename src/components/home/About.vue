@@ -4,11 +4,9 @@
     tag="section"
   >
     <base-subheading>About Us</base-subheading>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut tortor tellus. Donec maximus curs us pulvinar.
-      Proin vehicula eros mauris, sit amet rutrum libero vestibulum ac. Morbi ullamcorper eu lacus vulputate consect.
-      Etur vivamus sagittis accumsan quam eu malesuada. Proin et ante vel libero ultrices cursus. Donec felis leo, cu
-      rsus eget hendrerit at, congue nec enim.
-    </p>
+    <p> Jazz Dance & Dancecal Club KAIST Manshin </p>
+    <p>This is CS360 Project Outcome Page </p>
+    <p>frontend extended from vuetifyjs, authorized by johnleider</p>
+    <p>extension authorized by Nakji</p>
   </v-container>
 </template>
