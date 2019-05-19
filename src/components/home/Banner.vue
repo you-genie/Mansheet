@@ -26,18 +26,23 @@
             color="primary"
             depressed
             round
+            href="/signup"
           >
             Sign Up
           </v-btn>
-          <v-btn
-            color="primary"
-            depressed
-            round
-          >
-            Sign In
-          </v-btn>
+          <gen-group />
         </v-flex>
       </v-layout>
     </v-img>
   </base-card>
 </template>
+<script>
+  export default {
+    components: {
+      GenGroup: ()=> import('@/views/SignIn')
+    },
+    data: () => ({
+      dialog: false
+    })
+  }
+</script>

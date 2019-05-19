@@ -5,7 +5,6 @@
       fixed
       right
       slide-y-reverse-transition
-      open-on-hover
     >
       <template v-slot:activator>
         <v-btn
@@ -22,28 +21,22 @@
         fab
         small
         color="blue"
-        href="/signout"
+        href="/"
+        title="Sign Out"
         rel="noopener"
       >
         <v-icon>mdi-logout</v-icon>
       </v-btn>
-      <v-btn
-        fab
-        small
-        color="red"
-        href="/generate_group"
-        title="Go to top"
-      >
-        <v-icon>mdi-account-multiple-plus</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        small
-        color="yellow"
-        href="/add_schedule"
-        rel="noopener"
-      >
-        <v-icon>mdi-alarm-plus</v-icon>
-      </v-btn>
+      <gen-group />
+      <gen-schedule />s
     </v-speed-dial>
 </template>
+
+<script>
+  export default {
+    components: {
+      GenGroup: ()=> import('@/views/GenGroup'),
+      GenSchedule: ()=> import('@/views/GenSchedule')
+    }
+  }
+</script>
