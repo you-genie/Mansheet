@@ -10,7 +10,7 @@
           small
           v-on="on"
         >
-          Sign In
+          Join
         </v-chip>
       </template>
       <v-card>
