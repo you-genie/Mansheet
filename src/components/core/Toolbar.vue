@@ -12,15 +12,6 @@
       py-0
     >
       <v-layout>
-        <v-img
-          :src="require('@/assets/logo.png')"
-          class="mr-5"
-          contain
-          height="48"
-          width="48"
-          max-width="48"
-          @click="$vuetify.goTo(0)"
-        />
         <v-btn
           v-for="(link, i) in links"
           :key="i"
@@ -37,23 +28,9 @@
           flat
           hide-details
           solo-inverted
-          style="max-width: 300px;"
+          style="max-width: 200px;"
         />
-        <v-spacer />
-        <v-btn
-          class="ml-0 hidden-sm-and-down"
-          flat
-          @click="onClick($event, item)"
-        >
-          sign in
-        </v-btn>
-        <v-btn
-          class="ml-0 hidden-sm-and-down"
-          flat
-          @click="onClick($event, item)"
-        >
-          sign up
-        </v-btn>
+
       </v-layout>
     </v-container>
   </v-toolbar>

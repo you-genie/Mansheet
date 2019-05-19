@@ -2,7 +2,7 @@
   <base-card dark>
     <v-img
       class="grey lighten-2"
-      height="600"
+      height="650"
       width="100%"
       :src="require('@/assets/articles/real.png')"
     >
@@ -14,7 +14,7 @@
         <v-flex
           xs12
           md7
-          offset-md5
+          offset-md6
         >
           <h1 class="display-3 font-weight-light">
             Mansheet

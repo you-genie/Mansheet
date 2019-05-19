@@ -8,7 +8,6 @@
 
     <core-footer />
 
-    <core-cta />
   </v-app>
 </template>
 

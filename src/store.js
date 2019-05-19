@@ -14,8 +14,8 @@ export default new Vuex.Store({
         to: '/'
       },
       {
-        text: 'Make Group',
-        to: '/gen_group'
+        text: 'Groups',
+        to: '/groups'
       }
     ]
   },
@@ -31,9 +31,15 @@ export default new Vuex.Store({
 
         const text = schedule.group
 
+      /* implement this part later */
+        // groups.push({
+        //   text,
+        //   to: `/group/${text}`
+        // })
+
         groups.push({
           text,
-          to: `/group/${text}`
+          to: `/calendar`
         })
       }
 

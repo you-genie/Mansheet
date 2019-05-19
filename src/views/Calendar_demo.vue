@@ -8,7 +8,7 @@
     >
       <v-flex>
         <v-sheet 
-          height="600"
+          height="100%"
           width="100%"
         >
           <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
@@ -53,6 +53,7 @@
         </v-sheet>
       </v-flex>
     </v-layout>
+
   </div>
 </template>
 
@@ -105,6 +106,7 @@
         }
       ]
     }),
+
     computed: {
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
