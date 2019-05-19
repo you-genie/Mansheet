@@ -35,8 +35,8 @@
 <script>
   export default {
     components: {
-      GenGroup: ()=> import('@/views/GenGroup'),
-      GenSchedule: ()=> import('@/views/GenSchedule')
+      GenGroup: ()=> import('@/components/dialog/GenGroup'),
+      GenSchedule: ()=> import('@/components/dialog/GenSchedule')
     }
   }
 </script>

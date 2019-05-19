@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout row align-left>
-      <v-flex xs12>
+      <v-flex >
         <v-select
           v-model="entry"
           :items="users"

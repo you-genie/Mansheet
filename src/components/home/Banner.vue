@@ -39,7 +39,7 @@
 <script>
   export default {
     components: {
-      GenGroup: ()=> import('@/views/SignIn')
+      GenGroup: ()=> import('@/components/dialog/SignIn')
     },
     data: () => ({
       dialog: false

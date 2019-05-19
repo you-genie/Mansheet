@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Calendar from './views/Calendar_demo.vue'
 import Signup from './views/SignUp.vue'
-import Signin from './views/SignIn.vue'
+import Groups from './views/Groups.vue'
 
 Vue.use(Router)
 
@@ -27,9 +27,9 @@ export default new Router({
     	component: Signup
     },
     {
-    	path: '/signin',
-    	name: 'signin',
-    	component: Signin
+    	path: '/groups',
+    	name: 'groups',
+    	component: Groups
     }
   ]
 })

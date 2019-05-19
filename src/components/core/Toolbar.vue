@@ -14,6 +14,7 @@
       <v-layout>
         <v-btn
           v-for="(link, i) in links"
+          v-if="i<6"
           :key="i"
           :to="link.to"
           class="ml-0 hidden-sm-and-down"
@@ -21,6 +22,13 @@
           @click="onClick($event, item)"
         >
           {{ link.text }}
+        </v-btn>
+        <v-btn
+          v-if="links.length > 6"
+          class="ml-0 hidden-sm-and-down"
+          flat
+        >
+          <v-icon>mdi-chevron-down</v-icon>
         </v-btn>
         <v-spacer />
         <v-text-field

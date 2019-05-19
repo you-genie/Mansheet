@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
+    groups: require ('@/data/groups.json'),
     drawer: false,
     items: [
       {
@@ -20,16 +21,16 @@ export default new Vuex.Store({
     ]
   },
   getters: {
-    groups: state => {
-      const groups = []
+    group_names: state => {
+      const group_names = []
 
-      for (const schedule of state.schedules) {
+      for (const group of state.groups) {
         if (
-          !schedule.group ||
-          groups.find(group => group.text === schedule.group)
+          !group.name ||
+          group_names.find(group => group.text === group.name)
         ) continue
 
-        const text = schedule.group
+        const text = group.name
 
       /* implement this part later */
         // groups.push({
@@ -37,13 +38,13 @@ export default new Vuex.Store({
         //   to: `/group/${text}`
         // })
 
-        groups.push({
+        group_names.push({
           text,
           to: `/calendar`
         })
       }
 
-      return groups.sort().slice(0, 4)
+      return group_names.sort().slice(0, 4)
     },
     categories: state => {
       const categories = []
@@ -65,7 +66,7 @@ export default new Vuex.Store({
       return categories.sort().slice(0, 4)
     },
     links: (state, getters) => {
-      return state.items.concat(getters.groups)
+      return state.items.concat(getters.group_names)
     }
   },
   mutations: {
