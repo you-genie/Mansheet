@@ -5,6 +5,7 @@
         class="grey lighten-2"
         height="600"
         width="100%"
+        gradient="rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)"
         :src="require('@/assets/articles/wedonttalk.jpg')"
       >
         <v-layout
@@ -28,8 +29,9 @@
               <v-layout row wrap>
                 <v-flex xs4>
                   <v-text-field
+                    v-model="username"
                     label="ID"
-                    placeholder="Insert Your ID"
+                    placeholder="(기수)(아이디) 예: 13nakji"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs4>
@@ -38,7 +40,7 @@
                     :rules="[rules.required, rules.min]"
                     :type="show ? 'text' : 'password'"
                     label="Password"
-                    hint="At least 8 characters"
+                    hint="At least 4 characters"
                     counter
                     @click:append="show1 = !show1"
                   ></v-text-field>
@@ -49,7 +51,7 @@
               color="primary"
               depressed
               round
-              href="/calendar"
+              @click="signUpSubmit"
             >
               Submit
             </v-btn>
@@ -63,6 +65,11 @@
 </template>
 
 <script>
+  import {
+    mapState,
+    mapActions
+  } from 'vuex'
+
   export default {
     name: 'Signup',
 
@@ -73,11 +80,24 @@
     data () {
       return {
         show: false,
+        username: null,
         password: 'Password',
         rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
+          min: v => v.length >= 4 || 'Min 4 characters',
         }
+      }
+    },
+    computed: {
+    },
+    methods: {
+      ...mapActions(['signUp']),
+      signUpSubmit () {
+        this.signUp({ 
+          username: this.username, 
+          password: this.password 
+        });
+        this.$router.push('calendar');
       }
     }
   }

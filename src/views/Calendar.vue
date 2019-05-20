@@ -11,6 +11,7 @@
         pa-3
       >
         <v-flex>
+          <p>{{ username, password }}</p>
           <v-sheet 
             height="100%"
             width="100%"
@@ -87,6 +88,11 @@
   }
 </style>
 <script>
+  import {
+    mapState,
+    mapActions
+  } from 'vuex'
+
   export default {
     name: 'Calendar',
     data: () => ({
@@ -113,6 +119,8 @@
     }),
 
     computed: {
+      ...mapState(['username', 'password']),
+      ...mapActions(['fetchUserData']),
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
         const map = {}
@@ -121,7 +129,8 @@
       }
     },
     mounted () {
-      this.$refs.calendar.scrollToTime('13:00')
+      this.$refs.calendar.scrollToTime('13:00'),
+      this.fetchUserData
     },
     methods: {
       open (event) {

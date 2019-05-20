@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
+
+const axios = require('axios');
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: null,
+    password: null,
+    db: 'http://localhost:5000',
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
     groups: require ('@/data/groups.json'),
@@ -32,15 +38,9 @@ export default new Vuex.Store({
 
         const text = group.name
 
-      /* implement this part later */
-        // groups.push({
-        //   text,
-        //   to: `/group/${text}`
-        // })
-
         group_names.push({
           text,
-          to: `/calendar`
+          to: `/calendar/${text}`
         })
       }
 
@@ -71,9 +71,35 @@ export default new Vuex.Store({
   },
   mutations: {
     setDrawer: (state, payload) => (state.drawer = payload),
-    toggleDrawer: state => (state.drawer = !state.drawer)
+    toggleDrawer: state => (state.drawer = !state.drawer),
+    setUser: (state, payload) => (state.user = payload),
+    setPassword: (state, payload) => (state.password = payload)
   },
   actions: {
-
+    fetchUserData (context) {
+      if (context.state.user == null 
+        || context.state.password == null) {
+        router.push('/signup');
+      }
+    },
+    signUp (context, payload) {
+      axios.request({
+        method: 'post',
+        url: context.state.db + '/user',
+        data: {
+          "username": payload.username,
+          "password": payload.password
+        },
+        withCredentials: false
+      }).then(function (res) {
+        context.commit('setUser', payload.username);
+        context.commit('setPassword', payload.password);
+        console.log(res);
+      }).catch(function (err) {
+        console.log(payload);
+        console.log(err);
+        router.push('/');
+      });
+    }
   }
 })

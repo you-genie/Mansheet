@@ -54,7 +54,8 @@
 <script>
   // Utilities
   import {
-    mapState
+    mapState,
+    mapActions
   } from 'vuex'
 
   export default {
@@ -79,7 +80,8 @@
         const stop = this.page * 11
 
         return this.groups.slice(start, stop)
-      }
+      },
+      ...mapActions(['fetchUser']),
     },
 
     watch: {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Calendar from './views/Calendar_demo.vue'
+import Calendar from './views/Calendar.vue'
 import Signup from './views/SignUp.vue'
 import Groups from './views/Groups.vue'
 
@@ -17,7 +17,7 @@ export default new Router({
       component: Home
     },
     {
-    	path: '/calendar',
+    	path: '/calendar/:group',
     	name: 'calendar',
     	component: Calendar
     },

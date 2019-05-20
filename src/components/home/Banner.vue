@@ -4,6 +4,7 @@
       class="grey lighten-2"
       height="650"
       width="100%"
+      gradient="rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)"
       :src="require('@/assets/articles/real.png')"
     >
       <v-layout
