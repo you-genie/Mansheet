@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     user: "nakji",
     password: "1234",
-    db: 'http://localhost:5000',
+    db: 'https://mansheet.run.goorm.io:50000',
     users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
