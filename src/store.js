@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     user: "nakji",
     password: "1234",
-    db: 'https://mansheet.run.goorm.io:50000',
+    db: 'https://mansheet.run.goorm.io',
     users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
@@ -119,6 +119,8 @@ export default new Vuex.Store({
         url: context.state.db + '/user',
         data: base
       }).then(function (res) {
+        console.log(context.state.db)
+
         context.commit('setUser', payload.username);
         context.commit('setPassword', payload.password);
         
