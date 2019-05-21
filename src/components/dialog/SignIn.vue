@@ -1,5 +1,10 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="500">
+    <v-dialog 
+      v-model="dialog" 
+      persistent 
+      max-width="500"
+      :dark="error ? true : false"
+    >
       <template v-slot:activator="{ on }">
         <v-btn
           color="primary"
@@ -12,7 +17,10 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Sign In</span>
+          <span class="headline">Sign In
+            <small v-if="error">
+              Wrong ID or PWD
+            </small></span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -22,15 +30,14 @@
                   <v-text-field 
                     v-model="username"
                     label="ID" 
-                    required
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field 
                     v-model="password"
+                    :rules="[rules.required, rules.min, rules.error]"
                     label="Password" 
                     type="password" 
-                    required
                   >
                   </v-text-field>
                 </v-flex>
@@ -41,7 +48,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="secondary" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="secondary" flat @click="signInSubmit">Sign In</v-btn>
+          <v-btn 
+            :color="error ? 'warning' : 'secondary'"
+            flat 
+            @click="signInSubmit"
+          >
+            Sign In
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -57,7 +70,12 @@
     data: () => ({
       username: null,
       password: null,
-      dialog: false
+      dialog: false,
+      error: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 4 || 'Min 4 characters',
+      }
     }),
     methods: {
       ...mapActions(['signIn']),
@@ -67,7 +85,8 @@
           username: this.username,
           password: this.password
         });
-        this.$router.push('calendar/' + this.username);
+        this.dialog = true;
+        this.error = true;
       }
     }
   }

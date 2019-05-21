@@ -8,8 +8,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: "nakji",
-    password: "1234",
+    user: null,
+    password: null,
     db: 'https://mansheet.run.goorm.io',
     users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
@@ -105,32 +105,35 @@ export default new Vuex.Store({
         /* this should be deleted after */
         context.commit('setDummyUser', payload);
         console.log(res);
+        router.push('calendar/' + payload.username);
       }).catch(function (err) {
         console.log(payload);
         console.log(err);
-        router.push('/signup');
       });
     },
     signIn (context, payload) {
-      var base = { "username": payload.username, "password": payload.password};
-
       axios.request({
-        method: 'get',
+        method: 'patch',
         url: context.state.db + '/user',
-        data: base
+        data: {
+          "username": payload.username,
+          "password": payload.password
+        },
+        withCredentials: false
       }).then(function (res) {
-        console.log(context.state.db)
-
-        context.commit('setUser', payload.username);
-        context.commit('setPassword', payload.password);
-        
-        /* this should be deleted after */
         console.log(res);
+        if (res.status == 200) {
+          context.commit('setUser', payload.username);
+          context.commit('setPassword', payload.password);
+          
+          /* this should be deleted after */
+          console.log(res);
+          router.push('calendar/' + payload.username);
+        } else {
+          console.log("error");
+        }
       }).catch(function (err) {
-        console.log(context.state.db)
-        console.log(base);
-        console.log(err);
-        router.push('/');
+        console.log(payload);
       });
     }
   }
