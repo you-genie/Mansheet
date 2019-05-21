@@ -1,6 +1,5 @@
 <template>
     <v-speed-dial
-      v-model="fab"
       bottom
       fixed
       right
@@ -8,7 +7,6 @@
     >
       <template v-slot:activator>
         <v-btn
-          v-model="fab"
           color="primary"
           dark
           fab

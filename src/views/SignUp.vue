@@ -97,7 +97,7 @@
           username: this.username, 
           password: this.password 
         });
-        this.$router.push('calendar');
+        this.$router.push('calendar/' + this.username);
       }
     }
   }

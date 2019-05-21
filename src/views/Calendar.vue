@@ -11,12 +11,14 @@
         pa-3
       >
         <v-flex>
-          <p>{{ username, password }}</p>
           <v-sheet 
             height="100%"
             width="100%"
           >
             <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
+<!--             <h1>
+              {{ user }}
+            </h1> -->
             <v-calendar
               ref="calendar"
               :now="today"
@@ -46,7 +48,7 @@
                   <div
                     v-if="event.time"
                     :key="event.title"
-                    :style="{ top: timeToY(event.time) + 'px', height: minutesToPixels(event.duration) + 'px' }"
+                    :style="{ opacity: 0.5, top: timeToY(event.time) + 'px', height: minutesToPixels(event.duration) + 'px' }"
                     class="my-event with-time"
 
                     @click="open(event)"
@@ -102,7 +104,15 @@
           title: 'Paris',
           date: '2019-05-19',
           time: '21:00',
+          clickable: true,
           duration: 60
+        },
+        {
+          title: 'Paris2',
+          date: '2019-05-19',
+          time: '21:00',
+          clickable: false,
+          duration: 30
         },
         {
           title: 'Paris Sports Complex',
@@ -119,7 +129,7 @@
     }),
 
     computed: {
-      ...mapState(['username', 'password']),
+      ...mapState(['user', 'password']),
       ...mapActions(['fetchUserData']),
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
@@ -134,7 +144,9 @@
     },
     methods: {
       open (event) {
-        alert(event.title)
+        if (event.clickable) {
+          alert(event.title)
+        }
       }
     }
   }

@@ -4,7 +4,7 @@
       <v-flex >
         <v-select
           v-model="entry"
-          :items="users"
+          :items="usernames"
           label="Select Entry"
           multiple
           solo
@@ -18,18 +18,23 @@
 </template>
 
 <script>
+  import {
+    mapState
+  } from 'vuex'
+
   export default {
     name: "UserSelect",
     data () {
       return {
         entry: [],
-        users: [
-        /* this data should be later fetched from thers*/
-          'Shasha', 'Nakji', 'Ari', 'Jonna',
-          'Dongdong', 'Choco', 'Jobs', 'Rme',
-          'Ggomi', 'Ddeori', 'Mogi', 'Bm', 
-          'Ddolchi', 'Bugi', 'Dalo', 'Nalchi'
-        ]
+      }
+    },
+    computed: {
+      ...mapState(['users']),
+      usernames () {
+         const names = [];
+         this.users.forEach(e => (names.push(e.username)))
+         return names
       }
     }
   }

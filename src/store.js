@@ -8,9 +8,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null,
-    password: null,
+    user: "nakji",
+    password: "1234",
     db: 'http://localhost:5000',
+    users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
     groups: require ('@/data/groups.json'),
@@ -73,7 +74,13 @@ export default new Vuex.Store({
     setDrawer: (state, payload) => (state.drawer = payload),
     toggleDrawer: state => (state.drawer = !state.drawer),
     setUser: (state, payload) => (state.user = payload),
-    setPassword: (state, payload) => (state.password = payload)
+    setPassword: (state, payload) => (state.password = payload),
+    setDummyUser (state, payload) {
+      state.users.push({
+        username: payload.username,
+        password: payload.password
+      });
+    }
   },
   actions: {
     fetchUserData (context) {
@@ -94,9 +101,32 @@ export default new Vuex.Store({
       }).then(function (res) {
         context.commit('setUser', payload.username);
         context.commit('setPassword', payload.password);
+        
+        /* this should be deleted after */
+        context.commit('setDummyUser', payload);
         console.log(res);
       }).catch(function (err) {
         console.log(payload);
+        console.log(err);
+        router.push('/signup');
+      });
+    },
+    signIn (context, payload) {
+      var base = { "username": payload.username, "password": payload.password};
+
+      axios.request({
+        method: 'get',
+        url: context.state.db + '/user',
+        data: base
+      }).then(function (res) {
+        context.commit('setUser', payload.username);
+        context.commit('setPassword', payload.password);
+        
+        /* this should be deleted after */
+        console.log(res);
+      }).catch(function (err) {
+        console.log(context.state.db)
+        console.log(base);
         console.log(err);
         router.push('/');
       });
