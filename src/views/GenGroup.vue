@@ -28,7 +28,8 @@
                 <v-text-field label="Password*" type="password" required></v-text-field>
               </v-flex>
               <small>*indicates required field</small>
-              <user-select />
+              <small>{{ entries }}</small>
+              <user-select v-model="entries"/>
             </v-layout>
           </v-container>
         </v-card-text>
@@ -49,6 +50,7 @@
       UserSelect: () => import('@/components/base/UserSelect')
     },
     data: () => ({
+      entries: [],
       dialog: false
     })
   }

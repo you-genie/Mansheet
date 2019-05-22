@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
+import {axiosPostHeader, axiosPatchHeader, axiosGetHeader} from './store/helper'
 
 const axios = require('axios');
 
@@ -47,25 +48,6 @@ export default new Vuex.Store({
 
       return group_names.sort().slice(0, 4)
     },
-    categories: state => {
-      const categories = []
-
-      for (const article of state.articles) {
-        if (
-          !article.category ||
-          categories.find(category => category.text === article.category)
-        ) continue
-
-        const text = article.category
-
-        categories.push({
-          text,
-          to: `/category/${text}`
-        })
-      }
-
-      return categories.sort().slice(0, 4)
-    },
     links: (state, getters) => {
       return state.items.concat(getters.group_names)
     }
@@ -80,61 +62,84 @@ export default new Vuex.Store({
         username: payload.username,
         password: payload.password
       });
+    },
+    setDummyGroup (state, payload) {
+      state.groups.push(payload);
     }
   },
   actions: {
     fetchUserData (context) {
       if (context.state.user == null 
         || context.state.password == null) {
-        router.push('/signup');
+        router.push('/');
       }
     },
+    setUserInfo (context, payload) {
+      context.commit('setUser', payload.username);
+      context.commit('setPassword', payload.password); 
+    },
+    setDummyUserInfo (context, payload) {
+      context.commit('setUser', payload.username);
+      context.commit('setPassword', payload.password); 
+      context.commit('setDummyUser', payload);
+    },
     signUp (context, payload) {
-      axios.request({
-        method: 'post',
-        url: context.state.db + '/user',
-        data: {
+      var header = axiosPostHeader(
+        context.state.db + '/user', {
           "username": payload.username,
           "password": payload.password
-        },
-        withCredentials: false
-      }).then(function (res) {
-        context.commit('setUser', payload.username);
-        context.commit('setPassword', payload.password);
-        
-        /* this should be deleted after */
-        context.commit('setDummyUser', payload);
-        console.log(res);
-        router.push('calendar/' + payload.username);
+        });
+
+      axios.request(header).then(function (res) {
+        context.dispatch('setDummyUserInfo', payload).then(
+          () => {
+            console.log(res);
+            router.push('calendar/' + payload.username);
+          });
       }).catch(function (err) {
         console.log(payload);
         console.log(err);
       });
     },
     signIn (context, payload) {
-      axios.request({
-        method: 'patch',
-        url: context.state.db + '/user',
-        data: {
+      var header = axiosPatchHeader(
+        context.state.db + '/user', {
           "username": payload.username,
           "password": payload.password
-        },
-        withCredentials: false
-      }).then(function (res) {
+      });
+      axios.request(header).then(function (res) {
         console.log(res);
         if (res.status == 200) {
-          context.commit('setUser', payload.username);
-          context.commit('setPassword', payload.password);
-          
-          /* this should be deleted after */
-          console.log(res);
-          router.push('calendar/' + payload.username);
+          context.dispatch('setDummyUserInfo', payload).then(
+            () => {
+              console.log(res);
+              router.push('calendar/' + payload.username);
+            });
         } else {
           console.log("error");
         }
       }).catch(function (err) {
-        console.log(payload);
+        console.log(err);
       });
+    },
+    genGroup (context, payload) {
+      var header = axiosPostHeader(
+        context.state.db + '/group', payload
+      );
+      axios.request(header).then(function (res) {
+        if (res.status == 201) {
+          console.log('good');
+          /* later add logic of adding group (in toolbar) 
+          - so in dataset of group. */
+          context.dispatch('setDummyGroup', payload).then(
+            () => {
+              router.push('calendar/' + payload.groupname);
+            });
+        }
+      }).catch(function (err) {
+        console.log(err);
+        console.log(payload);
+      })
     }
   }
 })
