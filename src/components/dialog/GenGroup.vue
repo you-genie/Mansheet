@@ -66,7 +66,6 @@
       ...mapActions(['genGroup']),
       submitGroup () {
         this.dialog = false;
-        this.entries.push(this.user);
         var payload = {
           "username" : this.user,
           "groupname" : this.groupname,
