@@ -15,10 +15,6 @@
             height="100%"
             width="100%"
           >
-            <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
-<!--             <h1>
-              {{ user }}
-            </h1> -->
             <v-calendar
               ref="calendar"
               :now="today"
@@ -127,7 +123,9 @@
         }
       ]
     }),
-
+    props: {
+      group: String
+    },
     computed: {
       ...mapState(['user', 'password']),
       ...mapActions(['fetchUserData']),
@@ -139,6 +137,9 @@
       }
     },
     mounted () {
+      if (this.group == "all") {
+        console.log("you need to implement this part")
+      }
       this.$refs.calendar.scrollToTime('13:00'),
       this.fetchUserData
     },

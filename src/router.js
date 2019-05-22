@@ -19,6 +19,7 @@ export default new Router({
     {
     	path: '/calendar/:group',
     	name: 'calendar',
+    	props: true,
     	component: Calendar
     },
     {
