@@ -3,9 +3,9 @@
     <v-layout row align-left>
       <v-flex xs12>
         <v-select
-          v-model="group"
           :items="groups"
           label="Select Group*"
+          @change="sendData"
         ></v-select>
       </v-flex>
     </v-layout>
@@ -17,12 +17,21 @@
     name: "SingleGroupSelect",
     data () {
       return {
-        group: null,
         groups: [
         /* this data should be later fetched from thers*/
           'Paris', 'Ain\'t my fault', 'Little C', 'Me', 
           'Shuuuba', 'Groups'
         ]
+      }
+    },
+    model: {
+      value: 'group',
+      event: 'change'
+    },
+    methods: {
+      sendData (event) {
+        console.log(event)
+        this.$emit('change', event);
       }
     }
   }

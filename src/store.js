@@ -137,6 +137,19 @@ export default new Vuex.Store({
         console.log(err);
         console.log(payload);
       })
+    },
+    postSchedule (context, payload) {
+      var header = axiosPostHeader(
+        context.state.db + '/schedule', payload);
+      axios.request(header).then(function(res) {
+        if (res.status != 201) {
+          alert("wrong!");
+          console.log(res);
+        }
+      }).catch(function(err) {
+        console.log(err);
+        console.log(payload);
+      })
     }
   }
 })

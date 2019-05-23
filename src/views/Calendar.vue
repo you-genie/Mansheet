@@ -114,6 +114,8 @@
       }
       this.$refs.calendar.scrollToTime('13:00'),
       this.fetchUserData
+    },
+    methods: {
     }
   }
 </script>

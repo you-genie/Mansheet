@@ -24,8 +24,36 @@
                 <v-flex xs12>
                   <v-subheader>Time</v-subheader>
                 </v-flex>
+                 <v-flex xs12 lg6>
+                  <v-menu
+                    ref="date_menu"
+                    v-model="date_menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="dateFormatted"
+                        label="Date"
+                        :rules="[rules.required]"
+                        hint="MM/DD/YYYY format"
+                        persistent-hint
+                        prepend-icon="mdi-calendar-range"
+                        @blur="date = parseDate(dateFormatted)"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" no-title @input="date_menu = false"></v-date-picker>
+                  </v-menu>
+                </v-flex>
                 <v-menu
-                  ref="menu"
+                  ref="time_menu"
                   v-model="time_menu"
                   :close-on-content-click="false"
                   :nudge-right="40"
@@ -40,6 +68,7 @@
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="time"
+                      :rules="[rules.required]"
                       label="Time Picker"
                       prepend-icon="mdi-clock-outline"
                       readonly
@@ -50,14 +79,20 @@
                     v-if="time_menu"
                     v-model="time"
                     full-width
-                    @click:minute="$refs.menu.save(time)"
+                    @click:minute="$refs.time_menu.save(time)"
                   ></v-time-picker>
                 </v-menu>
+                <v-text-field
+                  v-model="duration"
+                  :rules="[rules.required, rules.positive]"
+                  prepend-icon="mdi-timelapse"
+                  type="number"
+                  label="duration" />
               </v-flex>
               <v-flex xs12>
                 <v-subheader>Group</v-subheader>
               </v-flex>
-              <single-group-select />
+              <single-group-select v-model="group"/>
               <v-flex xs12>
                 <v-subheader>Info</v-subheader>
               </v-flex>
@@ -80,7 +115,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Make</v-btn>
+          <v-btn color="blue darken-1" flat @click="scheduleSubmit">Make</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -88,6 +123,10 @@
 </template>
 
 <script>
+  import {
+    mapActions, mapState
+  } from 'vuex'
+
   export default {
     name: 'GenSchedule',
     components: {
@@ -96,7 +135,49 @@
     data: () => ({
       dialog: false,
       time_menu: false,
-      time: null
-    })
+      date_menu: false,
+      duration: "60",
+      group: null,
+      dateFormatted: null,
+      date: null,
+      time: null,
+      rules: {
+        required: value => !!value || 'Required.',
+        positive: v => v > 0 || 'Should be larger than 0'
+      }
+    }),
+    watch: {
+      date (val) {
+        this.dateFormatted = this.formatDate(this.date)
+      }
+    },
+    computed: {
+      ...mapState(['user'])
+    },
+    methods: {
+      ...mapActions(['postSchedule']),
+      formatDate (date) {
+        if (!date) return null
+
+        const [year, month, day] = date.split('-')
+        return `${month}/${day}/${year}`
+      },
+      parseDate (date) {
+        if (!date) return null
+
+        const [month, day, year] = date.split('/')
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      },
+      scheduleSubmit () {
+        var payload = {
+          "groupname": this.group,
+          "username": this.user,
+          "start_date": this.date,
+          "start_time": this.time,
+          "duration": this.duration
+        }
+        this.postSchedule(payload)
+      }
+    }
   }
 </script>
