@@ -88,9 +88,8 @@
   export default {
     name: 'Calendar',
     data: () => ({
-      today: new Date().toISOString().substr(0, 10),
-      start: new Date().toISOString().substr(0, 10),
-      color_preset: this.$vuetify.theme.color_preset
+      today: null,
+      start: new Date().toISOString().substr(0, 10)
     }),
     props: {
       group: String

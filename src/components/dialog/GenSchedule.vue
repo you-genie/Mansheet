@@ -137,6 +137,7 @@
       time_menu: false,
       date_menu: false,
       duration: "60",
+      info: null,
       group: null,
       dateFormatted: null,
       date: null,
@@ -169,12 +170,17 @@
         return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
       scheduleSubmit () {
+        if (this.group == null || this.user == null || this.date == null || this.time == null || this.duration == "") {
+          alert ("you should fill in! required field");
+          return;
+        }
         var payload = {
           "groupname": this.group,
           "username": this.user,
           "start_date": this.date,
           "start_time": this.time,
-          "duration": this.duration
+          "duration": this.duration,
+          "description": this.info
         }
         this.postSchedule(payload).then(() => (this.dialog = false)).catch(function(err) {
           alert("error!");
