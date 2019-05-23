@@ -176,7 +176,9 @@
           "start_time": this.time,
           "duration": this.duration
         }
-        this.postSchedule(payload)
+        this.postSchedule(payload).then(() => (this.dialog = false)).catch(function(err) {
+          alert("error!");
+        })
       }
     }
   }
