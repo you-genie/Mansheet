@@ -9,6 +9,7 @@
 	        :key="group.name"
 	        :size="layout[i]"
 	        :value="group"
+	        :picture="pictures[i%14]"
 	      />
 		    <v-layout align-center>
 		      <v-flex xs3>
@@ -71,7 +72,7 @@
     }),
 
     computed: {
-      ...mapState(['groups']),
+      ...mapState(['groups', 'pictures']),
       pages () {
         return Math.ceil(this.groups.length / 11)
       },

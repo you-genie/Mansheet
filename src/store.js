@@ -12,6 +12,7 @@ export default new Vuex.Store({
     user: null,
     password: null,
     db: 'https://mansheet.run.goorm.io',
+    pictures: require('@/data/heros.json'),
     users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),

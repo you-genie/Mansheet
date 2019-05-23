@@ -1,7 +1,7 @@
 {
-  "name": "@vuetify-theme/blog",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@mansheet/cli",
+  "version": "0.1.1",
+  "private": false,
   "scripts": {
     "deploy": "yarn build && now && now alias",
     "serve": "vue-cli-service serve",
@@ -11,11 +11,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "axios": "^0.17.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.1",
-    "vuex": "^3.0.1",
-    "axios": "^0.17.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

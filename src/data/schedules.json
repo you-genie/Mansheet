@@ -1,14 +1,47 @@
 [
-	{
-		"group": "My Group"
-	},
-	{
-		"group": "Pure Water"
-	},
-	{
-		"group": "Little C"
-	},
-	{
-		"group": "Ddong Paris"
-	}
+  {
+  	"sid": 1,
+    "groupname": "Paris",
+    "username": "12낙지",
+    "start_date": "2019-05-19",
+    "start_time": "21:00",
+    "duration": 60,
+    "description": "sports complex"
+  },
+  {
+  	"sid": 2,
+    "groupname": "08똘치",
+    "username": "08똘치",
+    "start_date": "2019-05-19",
+    "start_time": "21:00",
+    "duration": 60,
+    "description": "sports complex"
+  },
+  {
+  	"sid": 3,
+    "groupname": "Paris",
+    "username": "12낙지",
+    "start_date": "2019-05-20",
+    "start_time": "20:00",
+    "duration": 90,
+    "description": "중간점검"
+  },
+  {
+  	"sid": 4,
+    "groupname": "Paris",
+    "username": "12낙지",
+    "start_date": "2019-05-21",
+    "start_time": "23:15",
+    "duration": 45,
+    "description": "각 잡기"
+  },
+  {
+  	"sid": 1,
+    "groupname": "09샤샤",
+    "username": "09샤샤",
+    "start_date": "2019-05-23",
+    "start_time": "21:00",
+    "duration": 90,
+    "description": "sports complex"
+  }
 ]

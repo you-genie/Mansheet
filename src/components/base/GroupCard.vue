@@ -10,7 +10,7 @@
       href="#!"
     >
       <v-img
-        :src="require(`@/assets/articles/${value.hero}`)"
+        :src="require(`@/assets/articles/${picture}`)"
         height="100%"
         gradient="rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)"
       >
@@ -49,6 +49,7 @@
         type: Number,
         required: true
       },
+      picture: String,
       value: {
         type: Object,
         default: () => ({})
