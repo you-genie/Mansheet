@@ -1,5 +1,6 @@
 <template>
     <v-speed-dial
+      v-if="user"
       bottom
       fixed
       right
@@ -31,10 +32,17 @@
 </template>
 
 <script>
+  import {
+    mapState
+  } from 'vuex'
+
   export default {
     components: {
       GenGroup: ()=> import('@/components/dialog/GenGroup'),
       GenSchedule: ()=> import('@/components/dialog/GenSchedule')
+    },
+    computed: {
+      ...mapState(['user'])
     }
   }
 </script>

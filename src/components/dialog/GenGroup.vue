@@ -66,15 +66,22 @@
       ...mapActions(['genGroup']),
       submitGroup () {
         this.dialog = false;
+        var entries = this.mapEntries()
         var payload = {
           "username" : this.user,
           "groupname" : this.groupname,
-          "entries" : this.entries
+          "entries" : this.mapEntries()
         };
         this.genGroup(payload).catch(function (err) {
           this.dialog = true;
           this.error = true;
         })
+      },
+      mapEntries () {
+        var entries = []
+        this.entries.forEach(e => (entries.push({"username" : e})
+        ))
+        return entries
       }
     }
   }

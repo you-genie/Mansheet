@@ -129,13 +129,9 @@ export default new Vuex.Store({
       );
       axios.request(header).then(function (res) {
         if (res.status == 201) {
-          console.log('good');
           /* later add logic of adding group (in toolbar) 
           - so in dataset of group. */
-          context.dispatch('setDummyGroup', payload).then(
-            () => {
-              router.push('calendar/' + payload.groupname);
-            });
+          router.push('calendar/' + payload.groupname);
         }
       }).catch(function (err) {
         console.log(err);
