@@ -6,7 +6,8 @@
     "start_date": "2019-05-19",
     "start_time": "21:00",
     "duration": 60,
-    "description": "sports complex"
+    "description": "sports complex",
+    "groupid": 1
   },
   {
   	"sid": 2,
@@ -15,7 +16,8 @@
     "start_date": "2019-05-19",
     "start_time": "21:00",
     "duration": 60,
-    "description": "sports complex"
+    "description": "sports complex",
+    "groupid": 2
   },
   {
   	"sid": 3,
@@ -24,7 +26,8 @@
     "start_date": "2019-05-20",
     "start_time": "20:00",
     "duration": 90,
-    "description": "중간점검"
+    "description": "중간점검",
+    "groupid": 1
   },
   {
   	"sid": 4,
@@ -33,7 +36,8 @@
     "start_date": "2019-05-21",
     "start_time": "23:15",
     "duration": 45,
-    "description": "각 잡기"
+    "description": "각 잡기",
+    "groupid": 1
   },
   {
   	"sid": 1,
@@ -42,6 +46,7 @@
     "start_date": "2019-05-23",
     "start_time": "21:00",
     "duration": 90,
-    "description": "sports complex"
+    "description": "sports complex",
+    "groupid": 3
   }
 ]

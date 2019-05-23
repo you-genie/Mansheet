@@ -19,7 +19,8 @@
 	    {'color12' : i%15 == 11},
 	    {'color13' : i%15 == 12},
 	    {'color14' : i%15 == 13},
-	    {'color15' : i%15 == 14}]"
+	    {'color15' : i%15 == 14},
+      {'colorOwner': i == -1}]"
 	  @click="open(event)"
 	  v-html="groupname"
 	> </div>
@@ -119,7 +120,12 @@
     background-color: #ff6f69;
     border: 1px solid #ff6f69;
     color: black;       
-  }  
+  } 
+  .colorOwner {
+    background-color: #fa487d;
+    border: 1px solid #fa487d;
+    color: white;
+  }
 </style>
 <script>
 

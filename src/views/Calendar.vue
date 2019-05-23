@@ -62,10 +62,10 @@
                 <template v-for="(event, i) in eventsMap[date]">
                   <!-- timed events -->
                   <color-event
-                    :i="i"
+                    :i="event.groupid == groupInfo.groupid ? -1 : event.groupid"
                     :start_time="event.start_time"
                     :groupname="event.groupname"
-                    :opacity="0.5"
+                    :opacity="event.gid == groupInfo.gid ? 1 : entryOpacity"
                     :timeToY="timeToY(event.start_time)"
                     :minutesToPixels="minutesToPixels(event.duration)"
                   />
@@ -82,7 +82,8 @@
 <script>
   import {
     mapState,
-    mapActions
+    mapActions,
+    mapGetters
   } from 'vuex'
 
   export default {
@@ -95,13 +96,18 @@
       group: String
     },
     computed: {
-      ...mapState(['user', 'password', 'schedules']),
+      ...mapGetters(['groupEntrySize']),
+      ...mapState(['user', 'password', 'schedules', 'groupInfo']),
       ...mapActions(['fetchUserData']),
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
         const map = {}
         this.schedules.forEach(e => (map[e.start_date] = map[e.start_date] || []).push(e))
         return map
+      },
+      entryOpacity () {
+        const opacity = 1 / this.groupEntrySize;
+        return opacity;
       }
     },
     components: {
@@ -113,8 +119,10 @@
       }
       this.$refs.calendar.scrollToTime('13:00'),
       this.fetchUserData
+      this.getSchedule({"groupname": this.group})
     },
     methods: {
+      ...mapActions(['getSchedule'])
     }
   }
 </script>

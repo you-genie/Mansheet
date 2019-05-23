@@ -18,6 +18,12 @@ export default new Vuex.Store({
     schedules: require ('@/data/schedules.json'),
     groups: require ('@/data/groups.json'),
     drawer: false,
+    groupInfo: {
+      groupname: null,
+      owner: null,
+      groupid: null,
+      entries: []
+    },
     items: [
       {
         text: 'Home',
@@ -51,6 +57,9 @@ export default new Vuex.Store({
     },
     links: (state, getters) => {
       return state.items.concat(getters.group_names)
+    },
+    groupEntrySize: state => {
+      return state.groupInfo.entries.length;
     }
   },
   mutations: {
@@ -66,7 +75,9 @@ export default new Vuex.Store({
     },
     setDummyGroup (state, payload) {
       state.groups.push(payload);
-    }
+    },
+    setGroupInfo: (state, payload) => (state.groupInfo = payload),
+    setSchedules: (state, payload) => (state.schedules = payload)
   },
   actions: {
     fetchUserData (context) {
@@ -146,6 +157,30 @@ export default new Vuex.Store({
           alert("wrong!");
           console.log(res);
         }
+      }).catch(function(err) {
+        console.log(err);
+        console.log(payload);
+      })
+    },
+    getSchedule (context, payload) {
+      console.log(payload)
+      var header = axiosPatchHeader(
+        context.state.db + '/group', payload);
+      axios.request(header).then(function(res) {
+        if (res.status != 200) {
+          alert("wrong!");
+        }
+        console.log(res);
+        const data = res.data
+        /* do actions for getting schedule */
+        context.commit('setSchedules', data.schedules);
+        context.commit('setGroupInfo', {
+          groupname: data.groupname, 
+          groupid: data.groupid,
+          owner: data.ownername,
+          entries: data.entries
+        });
+        console.log(context.state.groupInfo)
       }).catch(function(err) {
         console.log(err);
         console.log(payload);
