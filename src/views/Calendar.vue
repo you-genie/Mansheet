@@ -62,9 +62,9 @@
                 <template v-for="(event, i) in eventsMap[date]">
                   <!-- timed events -->
                   <color-event
-                    :i="event.groupid == groupInfo.groupid ? -1 : event.groupid"
+                    :i="event.groupid == groupInfo.groupid ? -1 : event.username.charCodeAt(0)"
                     :start_time="event.start_time"
-                    :groupname="event.groupname"
+                    :groupname="event.groupid == groupInfo.groupid ? event.groupname : event.username"
                     :opacity="event.gid == groupInfo.gid ? 1 : entryOpacity"
                     :timeToY="timeToY(event.start_time)"
                     :minutesToPixels="minutesToPixels(event.duration)"
@@ -97,7 +97,7 @@
     },
     computed: {
       ...mapGetters(['groupEntrySize']),
-      ...mapState(['user', 'password', 'schedules', 'groupInfo']),
+      ...mapState(['user', 'password', 'schedules', 'groupInfo', 'fetch']),
       ...mapActions(['fetchUserData']),
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
@@ -112,6 +112,16 @@
     },
     components: {
       ColorEvent: () => import ('@/components/base/ColorEvent')
+    },
+    watch: {
+      group: function (changedGroup) {
+        this.getSchedule({"groupname": this.group})
+      },
+      fetch: function (value) {
+        if (value) {
+          this.getSchedule({"groupname": this.group})
+        }
+      }
     },
     mounted () {
       if (this.group == "all") {

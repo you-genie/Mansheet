@@ -57,8 +57,8 @@
     color: black;
   }
   .color3 {
-    background-color: #d64161;  
-    border: 1px solid #d64161;
+    background-color: #c6ff00;  
+    border: 1px solid #c6ff00;
     color: black; 
   }
   .color4 {
@@ -94,12 +94,12 @@
   .color10 {
     background-color: #50394c;
     border: 1px solid #50394c;
-    color: black;       
+    color: white;       
   }
   .color11 {
     background-color: #4040a1;
     border: 1px solid #4040a1;
-    color: black;       
+    color: white;       
   }
   .color12 {
     background-color: #f4e1d2;

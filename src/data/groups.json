@@ -1,32 +1,32 @@
 [
   {
-    "name": "Paris",
-    "owner": "Nakji",
+    "groupname": "Paris",
+    "ownername": "Nakji",
     "entries": ["12낙지", "08똘치", "14샤샤"]
   },
   {
-    "name": "We don't talk anymore",
-    "owner": "Ggomi Mandu",
+    "groupname": "We don't talk anymore",
+    "ownername": "Ggomi Mandu",
     "entries": ["12낙지", "14샤샤"]
   },
   {
-    "name": "That Girl",
-    "owner": "Bm",
+    "groupname": "That Girl",
+    "ownername": "Bm",
     "entries": ["08똘치", "14샤샤"]
   },
   {
-    "name": "Pure Water",
-    "owner": "HorseBird",
+    "groupname": "Pure Water",
+    "ownername": "HorseBird",
     "entries": ["12낙지", "08똘치", "14샤샤"]
   },
   {
-    "name": "Ain`t my fault",
-    "owner": "Jobs",
+    "groupname": "Ain`t my fault",
+    "ownername": "Jobs",
     "entries": ["12낙지", "08똘치", "14샤샤"]
   },
   {
-    "name": "Boy With Luv",
-    "owner": "Nalchi",
+    "groupname": "Boy With Luv",
+    "ownername": "Nalchi",
     "entries": ["12낙지", "08똘치", "14샤샤"]
   }
 ]

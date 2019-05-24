@@ -13,16 +13,18 @@
 </template>
 
 <script>
+  import {
+    mapGetters
+  } from 'vuex'
+
   export default {
     name: "SingleGroupSelect",
     data () {
       return {
-        groups: [
-        /* this data should be later fetched from thers*/
-          'Paris', 'Ain\'t my fault', 'Little C', 'Me', 
-          'Shuuuba', 'Groups'
-        ]
       }
+    },
+    computed: {
+      ...mapGetters({groups: 'groupnames'})
     },
     model: {
       value: 'group',

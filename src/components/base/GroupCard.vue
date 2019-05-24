@@ -22,9 +22,9 @@
           <v-flex xs12
           	text-xs-left>
             <h2 class="title font-weight-bold mb-2">
-              {{ value.name }}
+              {{ value.groupname }}
             </h2>
-            <v-subheading>{{ value.owner }}</v-subheading>
+            <v-subheading>{{ value.ownername }}</v-subheading>
             <div class="caption">
               manages
             </div>

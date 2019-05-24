@@ -6,7 +6,7 @@
 	    <v-layout wrap>
 	      <group-card
 	        v-for="(group, i) in paginatedGroups"
-	        :key="group.name"
+	        :key="group.groupname"
 	        :size="layout[i]"
 	        :value="group"
 	        :picture="pictures[i%14]"
@@ -65,14 +65,18 @@
     components: {
       GroupCard: () => import('@/components/base/GroupCard')
     },
-
+    mounted () {
+    	this.getAllGroups
+    },
     data: () => ({
       layout: [2, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3],
       page: 1
     }),
-
     computed: {
-      ...mapState(['groups', 'pictures']),
+      ...mapState({
+      	groups: 'notJoinedGroups', 
+      	pictures: 'pictures'
+      }),
       pages () {
         return Math.ceil(this.groups.length / 11)
       },
@@ -82,7 +86,7 @@
 
         return this.groups.slice(start, stop)
       },
-      ...mapActions(['fetchUser']),
+      ...mapActions(['fetchUser', 'getAllGroups']),
     },
 
     watch: {

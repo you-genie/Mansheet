@@ -48,14 +48,18 @@
   // Utilities
   import {
     mapGetters,
-    mapMutations
+    mapMutations,
+    mapActions
   } from 'vuex'
 
   export default {
     computed: {
-      ...mapGetters(['links'])
+      ...mapGetters(['links']),
+      ...mapActions(['getMyGroups'])
     },
-
+    mounted () {
+      this.getMyGroups
+    },
     methods: {
       ...mapMutations(['toggleDrawer']),
       onClick (e, item) {

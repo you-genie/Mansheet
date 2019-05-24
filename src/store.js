@@ -11,12 +11,14 @@ export default new Vuex.Store({
   state: {
     user: null,
     password: null,
+    fetch: false,
     db: 'https://mansheet.run.goorm.io',
     pictures: require('@/data/heros.json'),
     users: require('@/data/users.json'),
     articles: require('@/data/articles.json'),
     schedules: require ('@/data/schedules.json'),
     groups: require ('@/data/groups.json'),
+    notJoinedGroups: require ('@/data/groups.json'),
     drawer: false,
     groupInfo: {
       groupname: null,
@@ -36,16 +38,16 @@ export default new Vuex.Store({
     ]
   },
   getters: {
-    group_names: state => {
+    groupnames: state => {
       const group_names = []
 
-      for (const group of state.groups) {
+      for (const g of state.groups) {
         if (
-          !group.name ||
-          group_names.find(group => group.text === group.name)
+          !g.groupname ||
+          group_names.find(group => group.text === g.groupname)
         ) continue
 
-        const text = group.name
+        const text = g.groupname
 
         group_names.push({
           text,
@@ -56,13 +58,16 @@ export default new Vuex.Store({
       return group_names.sort().slice(0, 4)
     },
     links: (state, getters) => {
-      return state.items.concat(getters.group_names)
+      return state.items.concat(getters.groupnames)
     },
     groupEntrySize: state => {
       return state.groupInfo.entries.length;
     }
   },
   mutations: {
+    setFetch: (state, payload) => (state.fetch = payload),
+    setGroups: (state, payload) => (state.groups = payload),
+    setNotJoinedGroups: (state, payload) => (state.notJoinedGroups = payload),
     setDrawer: (state, payload) => (state.drawer = payload),
     toggleDrawer: state => (state.drawer = !state.drawer),
     setUser: (state, payload) => (state.user = payload),
@@ -122,10 +127,18 @@ export default new Vuex.Store({
       axios.request(header).then(function (res) {
         console.log(res);
         if (res.status == 200) {
-          context.dispatch('setDummyUserInfo', payload).then(
+          context.dispatch('setUserInfo', payload).then(
             () => {
               console.log(res);
-              router.push('calendar/' + payload.username);
+              context.dispatch('getAllGroups', {
+                "username": payload.username
+              }).then( () => {
+                context.dispatch('getMyGroups', {
+                  "username": context.state.user
+                }).then(() => {
+                  router.push('calendar/' + payload.username);
+                })
+              })
             });
         } else {
           console.log("error");
@@ -149,6 +162,38 @@ export default new Vuex.Store({
         console.log(payload);
       })
     },
+    getMyGroups (context) {
+      var header = axiosPostHeader(
+        context.state.db + "/allgroups", {"username": context.state.user}
+      );
+      axios.request(header).then(function(res) {
+        if (res.status != 200) {
+          console.log(res)
+        }
+        console.log("reaaaa")
+        context.commit('setGroups', res.data);
+      }).catch(function(err) {
+        console.log(err);
+        console.log(context.state.user)
+      })
+    },
+    getAllGroups (context) {
+      var header = axiosPatchHeader(
+        context.state.db + "/allgroups", {"username": context.state.user}
+      );
+      axios.request(header).then(function(res) {
+        if (res.status != 200) {
+          console.log(res);
+        }
+        console.log(res)
+        console.log(res.data)
+        context.commit('setNotJoinedGroups', res.data);
+      }).catch(function(err) {
+        // console.log(res.data[0]);
+
+        console.log(context.state.user)
+      })
+    },
     postSchedule (context, payload) {
       var header = axiosPostHeader(
         context.state.db + '/schedule', payload);
@@ -157,6 +202,7 @@ export default new Vuex.Store({
           alert("wrong!");
           console.log(res);
         }
+        context.commit('setFetch', true);
       }).catch(function(err) {
         console.log(err);
         console.log(payload);
@@ -181,9 +227,11 @@ export default new Vuex.Store({
           entries: data.entries
         });
         console.log(context.state.groupInfo)
+        context.commit('setFetch', false);
       }).catch(function(err) {
         console.log(err);
         console.log(payload);
+        context.commit('setSchedules', []);
       })
     }
   }
