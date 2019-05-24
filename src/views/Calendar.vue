@@ -65,7 +65,7 @@
                     :i="event.groupid == groupInfo.groupid ? -1 : event.username.charCodeAt(0)"
                     :start_time="event.start_time"
                     :groupname="event.groupid == groupInfo.groupid ? event.groupname : event.username"
-                    :opacity="event.gid == groupInfo.gid ? 1 : entryOpacity"
+                    :op="event.groupid == groupInfo.groupid ? 1 : entryOpacity"
                     :timeToY="timeToY(event.start_time)"
                     :minutesToPixels="minutesToPixels(event.duration)"
                   />
@@ -106,7 +106,8 @@
         return map
       },
       entryOpacity () {
-        const opacity = 1 / this.groupEntrySize;
+        const opacity = this.groupEntrySize;
+        console.log(this.groupEntrySize)
         return opacity;
       }
     },

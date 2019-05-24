@@ -21,7 +21,7 @@
 
 <script>
   import {
-    mapState
+    mapState, mapActions
   } from 'vuex'
 
   export default {
@@ -39,6 +39,9 @@
          return names
       }
     },
+    mounted () {
+      this.getAllUsers
+    },
     model: {
       value: 'entries',
       event: 'change'
@@ -46,7 +49,8 @@
     methods: {
       sendData (event) {
         this.$emit('change', event);
-      }
+      },
+      ...mapActions(['getAllUsers'])
     }
   }
 </script>

@@ -2,7 +2,7 @@
 	<div
 	  v-if="start_time"
 	  :key="groupname"
-	  :style="{opacity: opacity, top: timeToY + 'px', height: minutesToPixels + 'px' }"
+	  :style="{opacity: op, top: timeToY + 'px', height: minutesToPixels + 'px' }"
 	  class="my-event with-time"
 	  v-bind:class="[
 	    {'color1' : i%15 == 0},
@@ -134,7 +134,7 @@
   		i: Number,
   		start_time: String,
   		groupname: String,
-  		opacity: Number,
+  		op: Number,
   		timeToY: Number,
   		minutesToPixels: Number
   	},

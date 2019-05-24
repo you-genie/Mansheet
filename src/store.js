@@ -55,16 +55,18 @@ export default new Vuex.Store({
         })
       }
 
-      return group_names.sort().slice(0, 4)
+      return group_names.sort()
     },
     links: (state, getters) => {
       return state.items.concat(getters.groupnames)
     },
     groupEntrySize: state => {
-      return state.groupInfo.entries.length;
+      const len = state.groupInfo.entries.length + 1;
+      return 1 / len + 0.2;
     }
   },
   mutations: {
+    setUsers: (state, payload) => (state.users = payload),
     setFetch: (state, payload) => (state.fetch = payload),
     setGroups: (state, payload) => (state.groups = payload),
     setNotJoinedGroups: (state, payload) => (state.notJoinedGroups = payload),
@@ -99,6 +101,13 @@ export default new Vuex.Store({
       context.commit('setUser', payload.username);
       context.commit('setPassword', payload.password); 
       context.commit('setDummyUser', payload);
+    },
+    getAllUsers (context, payload) {
+      var header = axiosPatchHeader (
+        context.state.db + '/allusers', payload);
+      axios.request(header).then(function(res) {
+        context.commit('setUsers', res.data);
+      })
     },
     signUp (context, payload) {
       var header = axiosPostHeader(
@@ -155,11 +164,16 @@ export default new Vuex.Store({
         if (res.status == 201) {
           /* later add logic of adding group (in toolbar) 
           - so in dataset of group. */
-          router.push('calendar/' + payload.groupname);
+          console.log(res);
+          context.dispatch('getMyGroups').then(function() {
+            context.dispatch('getAllGroups');
+            router.push({name: 'calendar', params: {group: payload.groupname}});
+          })
         }
       }).catch(function (err) {
         console.log(err);
         console.log(payload);
+        alert(err)
       })
     },
     getMyGroups (context) {
@@ -171,6 +185,7 @@ export default new Vuex.Store({
           console.log(res)
         }
         console.log("reaaaa")
+        console.log(res);
         context.commit('setGroups', res.data);
       }).catch(function(err) {
         console.log(err);
@@ -227,6 +242,7 @@ export default new Vuex.Store({
           entries: data.entries
         });
         console.log(context.state.groupInfo)
+        console.log(context.getters.groupEntrySize)
         context.commit('setFetch', false);
       }).catch(function(err) {
         console.log(err);

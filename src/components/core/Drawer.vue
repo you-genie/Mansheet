@@ -22,14 +22,20 @@
 <script>
   // Utilities
   import {
+    mapState,
     mapGetters,
+    mapActions,
     mapMutations
   } from 'vuex'
 
   export default {
     name: 'CoreDrawer',
-
+    mounted () {
+      this.getMyGroups
+    },
     computed: {
+      ...mapActions(['getMyGroups']),
+      ...mapState(['groups']),
       ...mapGetters(['links']),
       drawer: {
         get () {
@@ -40,7 +46,11 @@
         }
       }
     },
-
+    watch: {
+      groups: function(value) {
+        this.getMyGroups
+      }
+    },
     methods: {
       ...mapMutations(['setDrawer']),
       onClick (e, item) {
