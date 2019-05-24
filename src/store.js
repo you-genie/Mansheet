@@ -38,6 +38,24 @@ export default new Vuex.Store({
     ]
   },
   getters: {
+    validGroupnames: state => {
+      const group_names = []
+
+      for (const g of state.groups) {
+        if (g.ownername != state.user) continue
+        if (
+          !g.groupname ||
+          group_names.find(group => group.text === g.groupname) 
+        ) continue
+
+        const text = g.groupname
+
+        group_names.push(text)
+      }
+
+      console.log(group_names)
+      return group_names.sort()
+    },
     groupnames: state => {
       const group_names = []
 
@@ -66,6 +84,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    signOut (state) {
+      state.user = null
+      state.password = null
+    },
     setUsers: (state, payload) => (state.users = payload),
     setFetch: (state, payload) => (state.fetch = payload),
     setGroups: (state, payload) => (state.groups = payload),
@@ -139,6 +161,7 @@ export default new Vuex.Store({
           context.dispatch('setUserInfo', payload).then(
             () => {
               console.log(res);
+              context.dispatch('getAllUsers',{"username": payload.username})
               context.dispatch('getAllGroups', {
                 "username": payload.username
               }).then( () => {

@@ -14,6 +14,7 @@
 
 <script>
   import {
+    mapState,
     mapGetters
   } from 'vuex'
 
@@ -24,7 +25,8 @@
       }
     },
     computed: {
-      ...mapGetters({groups: 'groupnames'})
+      ...mapState({base: 'groups'}),
+      ...mapGetters({groups: 'validGroupnames'})
     },
     model: {
       value: 'group',

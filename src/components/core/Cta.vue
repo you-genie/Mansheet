@@ -21,6 +21,7 @@
         small
         color="blue"
         href="/"
+        @click="signOut"
         title="Sign Out"
         rel="noopener"
       >
@@ -33,7 +34,7 @@
 
 <script>
   import {
-    mapState
+    mapState, mapMutations
   } from 'vuex'
 
   export default {
@@ -42,6 +43,7 @@
       GenSchedule: ()=> import('@/components/dialog/GenSchedule')
     },
     computed: {
+      ...mapMutations(['signOut']),
       ...mapState(['user'])
     }
   }

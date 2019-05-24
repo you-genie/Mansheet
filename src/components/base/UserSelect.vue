@@ -29,13 +29,10 @@
     computed: {
       ...mapState(['users', 'user']),
       usernames () {
-         const names = [];
-         this.users.forEach(e => {
-            if (e.username != this.user) {
-              names.push(e.username);
-              console.log(e.username);
-            }
-          });
+        const names = [];
+        this.users.forEach(e => {
+          names.push(e.username)
+        });
          return names
       }
     },
