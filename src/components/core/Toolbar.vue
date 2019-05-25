@@ -56,6 +56,8 @@
     },
     watch: {
       groups: function(value) {
+        console.log("h")
+        console.log(value)
         this.getMyGroups
       }
     },

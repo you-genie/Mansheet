@@ -1,4 +1,4 @@
-export { axiosPostHeader, axiosPatchHeader, axiosGetHeader };
+export { axiosPostHeader, axiosPatchHeader, axiosGetHeader, axiosDelHeader };
 function axiosPostHeader(url, data) {
 	var header = {
 		method: "post",
@@ -25,6 +25,17 @@ function axiosGetHeader(url) {
 	var header = {
 		method: "get",
 		url: url,
+		withcredentials: false
+	}
+
+	return header;
+}
+
+function axiosDelHeader(url, data) {
+	var header = {
+		method: "put",
+		url: url,
+		data: data,
 		withcredentials: false
 	}
 

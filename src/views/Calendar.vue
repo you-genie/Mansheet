@@ -68,6 +68,9 @@
                     :op="event.groupid == groupInfo.groupid ? 1 : entryOpacity"
                     :timeToY="timeToY(event.start_time)"
                     :minutesToPixels="minutesToPixels(event.duration)"
+                    :clickable="event.clickable"
+                    :sid="event.sid"
+                    :event="event"
                   />
                 </template>
               </template>
@@ -102,7 +105,25 @@
       // convert the list of events into a map of lists keyed by date
       eventsMap () {
         const map = {}
-        this.schedules.forEach(e => (map[e.start_date] = map[e.start_date] || []).push(e))
+        this.schedules.forEach(e => {
+          if (e.groupid != this.groupInfo.groupid) {
+            e.clickable = false;
+            if (map[e.start_date] == null) {
+              map[e.start_date] = []
+            }
+            map[e.start_date].push(e);
+          }
+        })
+        this.schedules.forEach(e => {
+          if (e.groupid == this.groupInfo.groupid) {
+            e.clickable = true;
+            if (map[e.start_date] == null) {
+              map[e.start_date] = []
+            }
+            map[e.start_date].push(e)
+          }
+        })
+        console.log(map)
         return map
       },
       entryOpacity () {
@@ -117,11 +138,6 @@
     watch: {
       group: function (changedGroup) {
         this.getSchedule({"groupname": this.group})
-      },
-      fetch: function (value) {
-        if (value) {
-          this.getSchedule({"groupname": this.group})
-        }
       }
     },
     mounted () {

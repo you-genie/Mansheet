@@ -20,6 +20,9 @@
 
   export default {
     name: "SingleGroupSelect",
+    props: {
+      group: String
+    },
     data () {
       return {
       }

@@ -1,29 +1,36 @@
 <template>
-	<div
-	  v-if="start_time"
-	  :key="groupname"
-	  :style="{opacity: op, top: timeToY + 'px', height: minutesToPixels + 'px' }"
-	  class="my-event with-time"
-	  v-bind:class="[
-	    {'color1' : i%15 == 0},
-	    {'color2' : i%15 == 1},
-	    {'color3' : i%15 == 2},
-	    {'color4' : i%15 == 3},
-	    {'color5' : i%15 == 4},
-	    {'color6' : i%15 == 5},
-	    {'color7' : i%15 == 6}, 
-	    {'color8' : i%15 == 7},
-	    {'color9' : i%15 == 8},
-	    {'color10' : i%15 == 9},
-	    {'color11' : i%15 == 10},
-	    {'color12' : i%15 == 11},
-	    {'color13' : i%15 == 12},
-	    {'color14' : i%15 == 13},
-	    {'color15' : i%15 == 14},
-      {'colorOwner': i == -1}]"
-	  @click="open(event)"
-	  v-html="groupname"
-	> </div>
+  <v-layout>
+  	<div
+  	  v-if="start_time"
+  	  :key="groupname"
+  	  :style="{opacity: op, top: timeToY + 'px', height: minutesToPixels + 'px' }"
+  	  class="my-event with-time"
+  	  v-bind:class="[
+  	    {'color1' : i%15 == 0},
+  	    {'color2' : i%15 == 1},
+  	    {'color3' : i%15 == 2},
+  	    {'color4' : i%15 == 3},
+  	    {'color5' : i%15 == 4},
+  	    {'color6' : i%15 == 5},
+  	    {'color7' : i%15 == 6}, 
+  	    {'color8' : i%15 == 7},
+  	    {'color9' : i%15 == 8},
+  	    {'color10' : i%15 == 9},
+  	    {'color11' : i%15 == 10},
+  	    {'color12' : i%15 == 11},
+  	    {'color13' : i%15 == 12},
+  	    {'color14' : i%15 == 13},
+  	    {'color15' : i%15 == 14},
+        {'colorOwner': i == -1}]"
+  	  @click="toggle"
+  	  v-html="groupname"
+  	> </div>
+    <schedule-info
+      v-if="clickable"
+      :toggle="openInfo"
+      :event="event"
+    ></schedule-info>
+  </v-layout>
 </template>
 <style lang="stylus" scoped>
   .my-event {
@@ -130,18 +137,27 @@
 <script>
 
   export default {
+    data: () => ({
+      openInfo: false
+    }),
   	props: {
   		i: Number,
   		start_time: String,
   		groupname: String,
   		op: Number,
   		timeToY: Number,
-  		minutesToPixels: Number
+  		minutesToPixels: Number,
+      clickable: Boolean,
+      sid: Number,
+      event: Object
   	},
+    components: {
+      ScheduleInfo: () => import('@/components/dialog/ScheduleInfo')
+    },
     name: 'ColorEvent',
     methods: {
-      open (event) {
-        alert(event.groupname)
+      toggle (event) {
+        this.openInfo = !this.openInfo;
       }
     }
   }

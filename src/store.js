@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
-import {axiosPostHeader, axiosPatchHeader, axiosGetHeader} from './store/helper'
+import {axiosPostHeader, axiosPatchHeader, axiosGetHeader, axiosDelHeader} from './store/helper'
 
 const axios = require('axios');
 
@@ -117,7 +117,7 @@ export default new Vuex.Store({
     },
     setUserInfo (context, payload) {
       context.commit('setUser', payload.username);
-      context.commit('setPassword', payload.password); 
+      context.commit('setPassword', payload.password);
     },
     setDummyUserInfo (context, payload) {
       context.commit('setUser', payload.username);
@@ -142,7 +142,7 @@ export default new Vuex.Store({
         context.dispatch('setDummyUserInfo', payload).then(
           () => {
             console.log(res);
-            router.push('calendar/' + payload.username);
+            router.push({name: 'calendar', params: {group: context.state.user}});
           });
       }).catch(function (err) {
         console.log(payload);
@@ -160,15 +160,15 @@ export default new Vuex.Store({
         if (res.status == 200) {
           context.dispatch('setUserInfo', payload).then(
             () => {
-              console.log(res);
               context.dispatch('getAllUsers',{"username": payload.username})
               context.dispatch('getAllGroups', {
                 "username": payload.username
               }).then( () => {
                 context.dispatch('getMyGroups', {
-                  "username": context.state.user
+                  "username": payload.username
                 }).then(() => {
-                  router.push('calendar/' + payload.username);
+                  console.log("GO PLEASE")
+                  router.push({name: 'calendar', params: {group: payload.username}});
                 })
               })
             });
@@ -199,15 +199,20 @@ export default new Vuex.Store({
         alert(err)
       })
     },
-    getMyGroups (context) {
-      var header = axiosPostHeader(
-        context.state.db + "/allgroups", {"username": context.state.user}
-      );
+    getMyGroups (context, payload) {
+      var header = null
+      if (payload == null) {
+        header = axiosPostHeader(
+          context.state.db + "/allgroups", {"username": context.state.user}
+        );        
+      } else {
+        header = axiosPostHeader(
+          context.state.db + "/allgroups", payload)
+      }
       axios.request(header).then(function(res) {
         if (res.status != 200) {
           console.log(res)
         }
-        console.log("reaaaa")
         console.log(res);
         context.commit('setGroups', res.data);
       }).catch(function(err) {
@@ -215,16 +220,20 @@ export default new Vuex.Store({
         console.log(context.state.user)
       })
     },
-    getAllGroups (context) {
-      var header = axiosPatchHeader(
-        context.state.db + "/allgroups", {"username": context.state.user}
-      );
+    getAllGroups (context, payload) {
+      var header = null
+      if (payload == null) {
+        header = axiosPatchHeader(
+          context.state.db + "/allgroups", {"username": context.state.user}
+        );        
+      } else {
+        header = axiosPatchHeader(
+          context.state.db + "/allgroups", payload)
+      }
       axios.request(header).then(function(res) {
         if (res.status != 200) {
           console.log(res);
         }
-        console.log(res)
-        console.log(res.data)
         context.commit('setNotJoinedGroups', res.data);
       }).catch(function(err) {
         // console.log(res.data[0]);
@@ -240,19 +249,55 @@ export default new Vuex.Store({
           alert("wrong!");
           console.log(res);
         }
-        context.commit('setFetch', true);
+        context.dispatch('getSchedule', {
+          "groupname": context.state.groupInfo.groupname,
+          "username": context.state.user
+        });
       }).catch(function(err) {
         console.log(err);
         console.log(payload);
       })
+    },
+    editSchedule (context, payload) {
+      var header = axiosPatchHeader(
+        context.state.db + '/schedule', payload);
+      axios.request(header).then(function(res) {
+        if (res.status != 201 ) {
+          alert("wrong!!!");
+          console.log(res);
+        }
+        context.dispatch('getSchedule', {
+          "groupname": context.state.groupInfo.groupname,
+          "username": context.state.user
+        });
+      }).catch(function(err) {
+        console.log(err);
+        console.log(payload);
+      })      
+    },
+    deleteSchedule (context, payload) {
+      var header = axiosDelHeader(
+        context.state.db + '/schedule', payload);
+      axios.request(header).then(function(res) {
+        if (res.status != 201) {
+          alert("wrong! del");
+          console.log(res);
+        }
+        context.dispatch('getSchedule', {
+          "groupname": context.state.groupInfo.groupname,
+          "username": context.state.user
+        });
+      }).catch(function(err) {
+        console.log(err);
+        console.log(payload);
+      })  
     },
     getSchedule (context, payload) {
       console.log(payload)
       var header = axiosPatchHeader(
         context.state.db + '/group', payload);
       axios.request(header).then(function(res) {
-        if (res.status != 200) {
-          alert("wrong!");
+        if (res.status != 201) {
         }
         console.log(res);
         const data = res.data
