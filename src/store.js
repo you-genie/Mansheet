@@ -116,8 +116,13 @@ export default new Vuex.Store({
       }
     },
     setUserInfo (context, payload) {
-      context.commit('setUser', payload.username);
-      context.commit('setPassword', payload.password);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          context.commit('setUser', payload.username);
+          context.commit('setPassword', payload.password);
+          resolve(payload.username)
+        }, 1000)
+      })
     },
     setDummyUserInfo (context, payload) {
       context.commit('setUser', payload.username);
@@ -140,7 +145,7 @@ export default new Vuex.Store({
 
       axios.request(header).then(function (res) {
         context.dispatch('setUserInfo', payload).then(
-          () => {
+          (username) => {
             console.log(res);
             router.push({name: 'home'});
           });
@@ -159,13 +164,13 @@ export default new Vuex.Store({
         console.log(res);
         if (res.status == 200) {
           context.dispatch('setUserInfo', payload).then(
-            () => {
-              context.dispatch('getAllUsers',{"username": payload.username})
+            (username) => {
+              context.dispatch('getAllUsers',{"username": username})
               context.dispatch('getAllGroups', {
-                "username": payload.username
+                "username": username
               }).then( () => {
                 context.dispatch('getMyGroups', {
-                  "username": payload.username
+                  "username": username
                 }).then(() => {
                   console.log("GO PLEASE")
                 })
@@ -186,7 +191,6 @@ export default new Vuex.Store({
         if (res.status == 201) {
           /* later add logic of adding group (in toolbar) 
           - so in dataset of group. */
-          console.log(res);
           context.dispatch('getMyGroups').then(function() {
             context.dispatch('getAllGroups');
             router.push({name: 'calendar', params: {group: payload.groupname}});

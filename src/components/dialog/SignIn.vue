@@ -17,10 +17,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Sign In
-            <small v-if="error">
-              Wrong ID or PWD
-            </small></span>
+          <span class="headline">Sign In</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>

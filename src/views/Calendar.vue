@@ -123,12 +123,10 @@
             map[e.start_date].push(e)
           }
         })
-        console.log(map)
         return map
       },
       entryOpacity () {
         const opacity = this.groupEntrySize;
-        console.log(this.groupEntrySize)
         return opacity;
       }
     },
@@ -137,7 +135,6 @@
     },
     watch: {
       group: function (changedGroup) {
-        console.log("here?")
         this.getSchedule({"groupname": this.group})
       }
     },

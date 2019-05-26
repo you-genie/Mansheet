@@ -90,9 +90,6 @@
     },
 
     watch: {
-    	groups: function() {
-    		this.getAllGroups
-    	},
       page () {
         window.scrollTo(0, 0)
       }
