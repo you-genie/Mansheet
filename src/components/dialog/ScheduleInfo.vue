@@ -31,6 +31,7 @@
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
           <v-btn 
+            v-if="event.clickable"
             color="deep-purple darken-2" 
             flat 
             @click="deleteAndClose"
@@ -38,6 +39,7 @@
             Delete
           </v-btn>
           <edit-schedule
+            v-if="event.clickable"
             :event="event"
             :close="close"
             v-model="close"

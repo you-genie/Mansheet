@@ -26,7 +26,6 @@
   	  v-html="groupname"
   	> </div>
     <schedule-info
-      v-if="clickable"
       :toggle="openInfo"
       :event="event"
     ></schedule-info>

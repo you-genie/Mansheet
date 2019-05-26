@@ -9,7 +9,7 @@
 
 <script>
   import {
-    mapState
+    mapState, mapActions
   } from 'vuex'
 
   export default {
@@ -21,6 +21,19 @@
     },
     computed: {
       ...mapState(['user', 'password'])
+    },
+    methods: {
+      ...mapActions(['getMyGroups', 'getAllUsers', 'getAllGroups'])
+    },
+    watch: {
+      user: function(value) {
+        if (value != null) {
+          this.getMyGroups()
+          this.getAllGroups()
+          this.getAllUsers({"username": value})
+          this.$router.push({name: 'calendar', params: {group: "all"}});
+        }
+      }
     },
     mounted () {
       if (this.user != null && this.password != null) {

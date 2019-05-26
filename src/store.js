@@ -168,7 +168,6 @@ export default new Vuex.Store({
                   "username": payload.username
                 }).then(() => {
                   console.log("GO PLEASE")
-                  router.push({name: 'calendar', params: {group: payload.username}});
                 })
               })
             });
@@ -200,6 +199,7 @@ export default new Vuex.Store({
       })
     },
     getMyGroups (context, payload) {
+      console.log('Get My Grouops')
       var header = null
       if (payload == null) {
         header = axiosPostHeader(
@@ -213,7 +213,6 @@ export default new Vuex.Store({
         if (res.status != 200) {
           console.log(res)
         }
-        console.log(res);
         context.commit('setGroups', res.data);
       }).catch(function(err) {
         console.log(err);
@@ -221,6 +220,7 @@ export default new Vuex.Store({
       })
     },
     getAllGroups (context, payload) {
+      console.log('Get ALl Grouops')
       var header = null
       if (payload == null) {
         header = axiosPatchHeader(
@@ -236,8 +236,6 @@ export default new Vuex.Store({
         }
         context.commit('setNotJoinedGroups', res.data);
       }).catch(function(err) {
-        // console.log(res.data[0]);
-
         console.log(context.state.user)
       })
     },
@@ -249,10 +247,15 @@ export default new Vuex.Store({
           alert("wrong!");
           console.log(res);
         }
-        context.dispatch('getSchedule', {
-          "groupname": context.state.groupInfo.groupname,
-          "username": context.state.user
-        });
+        if (context.state.groupInfo.groupid == -1) {
+          context.dispatch('getAllSchedules')
+        } else {
+          context.dispatch('getSchedule', {
+            "groupname": context.state.groupInfo.groupname,
+            "username": context.state.user
+          });          
+        }
+
       }).catch(function(err) {
         console.log(err);
         console.log(payload);
@@ -293,7 +296,6 @@ export default new Vuex.Store({
       })  
     },
     getSchedule (context, payload) {
-      console.log(payload)
       var header = axiosPatchHeader(
         context.state.db + '/group', payload);
       axios.request(header).then(function(res) {
@@ -316,6 +318,20 @@ export default new Vuex.Store({
         console.log(err);
         console.log(payload);
         context.commit('setSchedules', []);
+      })
+    },
+    getAllSchedules (context) {
+      var header = axiosPatchHeader(
+        context.state.db + '/allschedules');
+      axios.request(header).then(function(res) {
+        const data = res.data
+        context.commit('setSchedules', data);
+        context.commit('setGroupInfo', {
+          groupname: "all", 
+          groupid: -1,
+          owner: null,
+          entries: []
+        });
       })
     }
   }

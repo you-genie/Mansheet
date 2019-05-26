@@ -51,14 +51,10 @@
       ...mapGetters(['links']),
       ...mapActions(['getMyGroups'])
     },
-    mounted () {
-      this.getMyGroups
-    },
     watch: {
       groups: function(value) {
         console.log("h")
         console.log(value)
-        this.getMyGroups
       }
     },
     methods: {

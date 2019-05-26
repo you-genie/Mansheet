@@ -3,6 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
+          v-if="event.clickable"
           dark
           flat
           @click="sendData"
@@ -161,7 +162,7 @@
     },
     props: {
       event: Object,
-      toggle: Boolean
+      close: Boolean
     },
     watch: {
       date (val) {
@@ -172,13 +173,13 @@
       ...mapState(['user'])
     },
     model: {
-      value: 'toggle',
+      value: 'close',
       event: 'click'
     },
     methods: {
       ...mapActions(['editSchedule']),
       sendData (event) {
-        this.$emit('click', !this.toggle)
+        this.$emit('click', !this.close)
       },
       formatDate (date) {
         if (!date) return null

@@ -62,9 +62,9 @@
                 <template v-for="(event, i) in eventsMap[date]">
                   <!-- timed events -->
                   <color-event
-                    :i="event.groupid == groupInfo.groupid ? -1 : event.username.charCodeAt(0)"
+                    :i="groupInfo.groupid == -1 ? event.groupname.charCodeAt(0) * i + event.username.charCodeAt(0) : event.groupid == groupInfo.groupid ? -1 : event.username.charCodeAt(0)"
                     :start_time="event.start_time"
-                    :groupname="event.groupid == groupInfo.groupid ? event.groupname : event.username"
+                    :groupname="groupInfo.groupid == -1 ? event.groupname : event.groupid == groupInfo.groupid ? event.groupname : event.username"
                     :op="event.groupid == groupInfo.groupid ? 1 : entryOpacity"
                     :timeToY="timeToY(event.start_time)"
                     :minutesToPixels="minutesToPixels(event.duration)"
@@ -137,19 +137,21 @@
     },
     watch: {
       group: function (changedGroup) {
+        console.log("here?")
         this.getSchedule({"groupname": this.group})
       }
     },
     mounted () {
       if (this.group == "all") {
-        console.log("you need to implement this part")
+        this.getAllSchedules()
+      } else {
+        this.getSchedule({"groupname": this.group})
       }
-      this.$refs.calendar.scrollToTime('13:00'),
-      this.fetchUserData
-      this.getSchedule({"groupname": this.group})
+      this.$refs.calendar.scrollToTime('13:00')
+      // this.fetchUserData
     },
     methods: {
-      ...mapActions(['getSchedule'])
+      ...mapActions(['getSchedule', 'getAllSchedules'])
     }
   }
 </script>
