@@ -3,7 +3,6 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
-          v-if="event.clickable"
           dark
           flat
           @click="sendData"
@@ -162,7 +161,8 @@
     },
     props: {
       event: Object,
-      close: Boolean
+      close: Boolean,
+      buttonView: Boolean
     },
     watch: {
       date (val) {

@@ -139,14 +139,14 @@ export default new Vuex.Store({
         });
 
       axios.request(header).then(function (res) {
-        context.dispatch('setDummyUserInfo', payload).then(
+        context.dispatch('setUserInfo', payload).then(
           () => {
             console.log(res);
-            router.push({name: 'calendar', params: {group: context.state.user}});
+            router.push({name: 'home'});
           });
       }).catch(function (err) {
         console.log(payload);
-        console.log(err);
+        alert("이미 있는 이름이지롱")
       });
     },
     signIn (context, payload) {

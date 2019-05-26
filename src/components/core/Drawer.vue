@@ -46,11 +46,6 @@
         }
       }
     },
-    watch: {
-      groups: function(value) {
-        this.getMyGroups
-      }
-    },
     methods: {
       ...mapMutations(['setDrawer']),
       onClick (e, item) {

@@ -42,6 +42,7 @@
             v-if="event.clickable"
             :event="event"
             :close="close"
+            :buttonView="event.clickable"
             v-model="close"
           ></edit-schedule>
         </v-card-actions>
