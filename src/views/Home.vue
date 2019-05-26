@@ -26,16 +26,10 @@
       ...mapActions(['getMyGroups', 'getAllUsers', 'getAllGroups'])
     },
     watch: {
-      groups: function(value) {
-        console.log(value)
-        if (value != null) {
-          this.$router.push({name: 'calendar', params: {group: "all"}});
+      user: function(value) {
+        if (value != null && value != "id") {
+          this.$router.push({name: 'calendar', params: {group: 'all'}});
         }
-      }
-    },
-    mounted () {
-      if (this.user != null && this.password != null) {
-        this.$router.push('calendar/all');
       }
     }
   }

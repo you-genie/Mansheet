@@ -30,6 +30,7 @@
       <gen-group />
       <gen-schedule />
       <drop-out 
+        v-if="groupInfo.groupname != user && groupInfo.groupId != -1"
         :owner="groupInfo.owner == user"
         :value="groupInfo"/>
     </v-speed-dial>

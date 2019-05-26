@@ -32,7 +32,7 @@
                 <v-flex xs12>
                   <v-text-field 
                     v-model="password"
-                    :rules="[rules.required, rules.min, rules.error]"
+                    :rules="[rules.required, rules.min]"
                     label="Password" 
                     type="password" 
                   >
@@ -66,7 +66,7 @@
     name: 'Signin',
     data: () => ({
       username: null,
-      password: null,
+      password: 'Password',
       dialog: false,
       error: false,
       rules: {
@@ -78,11 +78,11 @@
       ...mapActions(['signIn']),
       signInSubmit () {
         this.error = true;
-        this.dialog = false;
         this.signIn({
           username: this.username,
           password: this.password
         });
+        this.dialog = false;
       }
     }
   }

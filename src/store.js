@@ -9,8 +9,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null,
-    password: null,
+    user: "id",
+    password: "pwd",
     fetch: false,
     db: 'https://mansheet.run.goorm.io',
     pictures: require('@/data/heros.json'),
@@ -52,8 +52,6 @@ export default new Vuex.Store({
 
         group_names.push(text)
       }
-
-      console.log(group_names)
       return group_names.sort()
     },
     groupnames: state => {
@@ -85,8 +83,8 @@ export default new Vuex.Store({
   },
   mutations: {
     signOut (state) {
-      state.user = null
-      state.password = null
+      state.user = "id"
+      state.password = "pwd"
     },
     setUsers: (state, payload) => (state.users = payload),
     setFetch: (state, payload) => (state.fetch = payload),
@@ -94,7 +92,10 @@ export default new Vuex.Store({
     setNotJoinedGroups: (state, payload) => (state.notJoinedGroups = payload),
     setDrawer: (state, payload) => (state.drawer = payload),
     toggleDrawer: state => (state.drawer = !state.drawer),
-    setUser: (state, payload) => (state.user = payload),
+    setUser (state, payload) {
+      state.user = payload
+      console.log("here" + payload)
+    },
     setPassword: (state, payload) => (state.password = payload),
     setDummyUser (state, payload) {
       state.users.push({
@@ -111,18 +112,13 @@ export default new Vuex.Store({
   actions: {
     fetchUserData (context) {
       if (context.state.user == null 
-        || context.state.password == null) {
+        || context.state.user == "id") {
         router.push('/');
       }
     },
     setUserInfo (context, payload) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          context.commit('setUser', payload.username);
-          context.commit('setPassword', payload.password);
-          resolve(payload.username)
-        }, 1000)
-      })
+      context.commit('setUser', payload.username);
+      context.commit('setPassword', payload.password);
     },
     setDummyUserInfo (context, payload) {
       context.commit('setUser', payload.username);
@@ -168,11 +164,7 @@ export default new Vuex.Store({
         });
 
       axios.request(header).then(function (res) {
-        context.dispatch('setUserInfo', payload).then(
-          (username) => {
-            console.log(res);
-            router.push({name: 'home'});
-          });
+        context.dispatch('setUserInfo', payload)
       }).catch(function (err) {
         console.log(payload);
         alert("이미 있는 이름이지롱")
@@ -180,23 +172,12 @@ export default new Vuex.Store({
     },
     signIn (context, payload) {
       var header = axiosPatchHeader(
-        context.state.db + '/user', {
-          "username": payload.username,
-          "password": payload.password
-      });
+        context.state.db + '/user', payload);
       axios.request(header).then(function (res) {
-        console.log(res);
         if (res.status == 200) {
-          context.dispatch('setUserInfo', payload).then(
-            (username) => {
-              context.dispatch('getAllUsers',{"username": username})
-              context.dispatch('getAllGroups', {
-                "username": username
-              })
-              context.dispatch('getMyGroups', {
-                "username": username
-              })
-            });
+          console.log(payload)
+          context.commit('setUser', payload.username);
+          context.commit('setPassword', payload.password);
         } else {
           console.log("error");
         }
@@ -224,7 +205,7 @@ export default new Vuex.Store({
       })
     },
     getMyGroups (context, payload) {
-      console.log('Get My Grouops')
+      console.log('Get My Groups')
       var header = null
       if (payload == null) {
         header = axiosPostHeader(
@@ -245,7 +226,7 @@ export default new Vuex.Store({
       })
     },
     getAllGroups (context, payload) {
-      console.log('Get ALl Grouops')
+      console.log('Get All Grouops')
       var header = null
       if (payload == null) {
         header = axiosPatchHeader(

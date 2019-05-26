@@ -52,10 +52,6 @@
       ...mapActions(['getMyGroups'])
     },
     watch: {
-      groups: function(value) {
-        console.log("h")
-        console.log(value)
-      }
     },
     methods: {
       ...mapMutations(['toggleDrawer']),

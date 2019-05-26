@@ -30,9 +30,6 @@
 
   export default {
     name: 'CoreDrawer',
-    mounted () {
-      this.getMyGroups
-    },
     computed: {
       ...mapActions(['getMyGroups']),
       ...mapState(['groups']),
