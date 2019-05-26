@@ -32,7 +32,7 @@
         }
       }
     },
-    beforeUpdate () {
+    mounted () {
       if (this.user != null && this.user != "id") {
         this.$router.push({name: 'calendar', params: {group: 'all'}});
       }
