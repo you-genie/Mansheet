@@ -144,9 +144,17 @@ export default new Vuex.Store({
         context.dispatch('getAllGroups');
       })
     },
-    dropGroup (context, payload) {
+    deleteGroup (context, payload) {
       var header = axiosDelHeader (
         context.state.db + '/group', payload);
+      axios.request(header).then(function(res) {
+        context.dispatch('getMyGroups');
+        context.dispatch('getAllGroups');
+      })
+    },
+    dropGroup (context, payload) {
+      var header = axiosDelHeader (
+        context.state.db + '/join', payload);
       axios.request(header).then(function(res) {
         context.dispatch('getMyGroups');
         context.dispatch('getAllGroups');
@@ -184,12 +192,9 @@ export default new Vuex.Store({
               context.dispatch('getAllUsers',{"username": username})
               context.dispatch('getAllGroups', {
                 "username": username
-              }).then( () => {
-                context.dispatch('getMyGroups', {
-                  "username": username
-                }).then(() => {
-                  console.log("GO PLEASE")
-                })
+              })
+              context.dispatch('getMyGroups', {
+                "username": username
               })
             });
         } else {

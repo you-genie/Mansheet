@@ -77,13 +77,12 @@
     methods: {
       ...mapActions(['signIn']),
       signInSubmit () {
+        this.error = true;
         this.dialog = false;
         this.signIn({
           username: this.username,
           password: this.password
         });
-        this.dialog = true;
-        this.error = true;
       }
     }
   }

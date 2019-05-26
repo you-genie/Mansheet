@@ -22,7 +22,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="drop">Yes</v-btn>
+          <v-btn color="blue darken-1" flat @click="value.owner == user ? del() : drop()">Yes</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">No</v-btn>
         </v-card-actions>
       </v-card>
@@ -37,6 +37,7 @@
 
   export default {
     props: {
+      owner: Boolean,
       value: {
         type: Object,
         default: () => ({})
@@ -50,13 +51,23 @@
       dialog: false
     }),
     methods: {
-      ...mapActions(['dropGroup']),
+      ...mapActions(['deleteGroup', 'dropGroup']),
+      del () {
+        var payload = {
+          "groupname": this.value.groupname,
+          "username": this.user
+        }
+        this.deleteGroup(payload);
+        this.$router.push({name: 'home'});
+        this.dialog = false;
+      },
       drop () {
         var payload = {
           "groupname": this.value.groupname,
           "username": this.user
         }
         this.dropGroup(payload);
+        this.$router.push({name: 'home'});
         this.dialog = false;
       }
     }

@@ -20,17 +20,15 @@
       Banner: () => import('@/components/home/Banner'),
     },
     computed: {
-      ...mapState(['user', 'password'])
+      ...mapState(['user', 'password', 'groups'])
     },
     methods: {
       ...mapActions(['getMyGroups', 'getAllUsers', 'getAllGroups'])
     },
     watch: {
-      user: function(value) {
+      groups: function(value) {
+        console.log(value)
         if (value != null) {
-          this.getMyGroups()
-          this.getAllGroups()
-          this.getAllUsers({"username": value})
           this.$router.push({name: 'calendar', params: {group: "all"}});
         }
       }
