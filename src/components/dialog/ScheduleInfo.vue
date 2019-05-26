@@ -32,7 +32,7 @@
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
           <v-btn 
-            v-if="event.clickable"
+            v-if="event.clickable && event.username == user"
             color="deep-purple darken-2" 
             flat 
             @click="deleteAndClose"
@@ -40,7 +40,7 @@
             Delete
           </v-btn>
           <edit-schedule
-            v-if="event.clickable"
+            v-if="event.clickable && event.username == user"
             :event="event"
             :close="close"
             :buttonView="event.clickable"
