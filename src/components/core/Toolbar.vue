@@ -23,13 +23,7 @@
           {{ link.text }}
         </v-btn>
         <v-spacer />
-        <v-text-field
-          append-icon="mdi-magnify"
-          flat
-          hide-details
-          solo-inverted
-          style="max-width: 200px;"
-        />
+
 
       </v-layout>
     </v-container>
