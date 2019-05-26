@@ -5,7 +5,7 @@
          <v-img
           class="white--text"
           height="200px"
-          :src="require(`@/assets/articles/firepots.jpg`)"
+          :src="require(`@/assets/articles/wedonttalk.jpg`)"
         >
           <v-container fill-height fluid>
             <v-layout fill-height>

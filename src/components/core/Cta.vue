@@ -28,7 +28,10 @@
         <v-icon>mdi-logout</v-icon>
       </v-btn>
       <gen-group />
-      <gen-schedule />s
+      <gen-schedule />
+      <drop-out 
+        v-if="groupInfo.owner == user"
+        :value="groupInfo"/>
     </v-speed-dial>
 </template>
 
@@ -40,11 +43,12 @@
   export default {
     components: {
       GenGroup: ()=> import('@/components/dialog/GenGroup'),
-      GenSchedule: ()=> import('@/components/dialog/GenSchedule')
+      GenSchedule: ()=> import('@/components/dialog/GenSchedule'),
+      DropOut: () => import('@/components/dialog/DropOut')
     },
     computed: {
       ...mapMutations(['signOut']),
-      ...mapState(['user'])
+      ...mapState(['user', 'groupInfo'])
     }
   }
 </script>

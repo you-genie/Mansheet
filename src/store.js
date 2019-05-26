@@ -144,6 +144,14 @@ export default new Vuex.Store({
         context.dispatch('getAllGroups');
       })
     },
+    dropGroup (context, payload) {
+      var header = axiosDelHeader (
+        context.state.db + '/group', payload);
+      axios.request(header).then(function(res) {
+        context.dispatch('getMyGroups');
+        context.dispatch('getAllGroups');
+      })
+    },
     signUp (context, payload) {
       var header = axiosPostHeader(
         context.state.db + '/user', {
