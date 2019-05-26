@@ -33,7 +33,7 @@
     watch: {
       user: function(value) {
         console.log("change this!: " + value)
-        if (value != null || value != "id") {
+        if (value != null && value != "id") {
           this.getMyGroups()
           this.getAllUsers({"username": value})
           this.getAllGroups()
