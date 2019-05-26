@@ -15,14 +15,14 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Join {{value.name}}</span>
+          <span class="headline">Join {{value.groupname}}</span>
         </v-card-title>
         <v-card-text>
-          Do you really want to join {{value.name}} group?
+          Do you really want to join {{value.groupname}} group?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Yes</v-btn>
+          <v-btn color="blue darken-1" flat @click="join">Yes</v-btn>
           <v-btn color="blue darken-1" flat @click="dialog = false">No</v-btn>
         </v-card-actions>
       </v-card>
@@ -31,6 +31,10 @@
 </template>
 
 <script>
+  import {
+    mapState, mapActions
+  } from 'vuex'
+
   export default {
     props: {
       value: {
@@ -38,9 +42,23 @@
         default: () => ({})
       }
     },
+    computed: {
+      ...mapState(['user']),
+    },
     name: 'JoinGroup',
     data: () => ({
       dialog: false
-    })
+    }),
+    methods: {
+      ...mapActions(['joinGroup']),
+      join () {
+        var payload = {
+          "groupname": this.value.groupname,
+          "username": this.user
+        }
+        this.joinGroup(payload);
+        this.dialog = false;
+      }
+    }
   }
 </script>

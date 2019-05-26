@@ -1,31 +1,32 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" persistent max-width="400px">
+    <v-dialog v-model="dialog" persistent max-width="300px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Schedule Info</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-subheader>Owner</v-subheader>
-                  <v-layout row justify-space-around>
-                    <div>group: {{event.groupname}}</div>
-                    <div>user: {{event.username}}</div>
-                  </v-layout>
-                <v-subheader>Time</v-subheader>
-                <v-layout row justify-space-around>
-                  <div>date: {{event.start_date}}</div>
-                  <div>time: {{event.start_time}}</div>
-                </v-layout>
-              </v-flex>
-              <v-flex xs12>
-                <v-subheader>Info</v-subheader>
-                <p>{{ event.description }}</p>
+         <v-img
+          class="white--text"
+          height="200px"
+          :src="require(`@/assets/articles/firepots.jpg`)"
+        >
+          <v-container fill-height fluid>
+            <v-layout fill-height>
+              <v-flex xs12 align-end flexbox>
+                <span class="headline">{{event.start_date}}</span><br>
+                <span class="subheading">{{event.start_time}} </span>
               </v-flex>
             </v-layout>
           </v-container>
+        </v-img>
+        <v-card-title>
+          <div>
+            <span>{{event.groupname}}</span><br>
+            <span class="grey--text">Member: {{event.username}}</span><br>
+          </div>
+        </v-card-title>
+        <v-card-text>
+          <div>
+            <span class="grey--text">Info</span><br>
+            <span>{{event.description}}</span>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

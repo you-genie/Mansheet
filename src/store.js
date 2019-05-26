@@ -136,6 +136,14 @@ export default new Vuex.Store({
         context.commit('setUsers', res.data);
       })
     },
+    joinGroup (context, payload) {
+      var header = axiosPostHeader (
+        context.state.db + '/join', payload);
+      axios.request(header).then(function(res) {
+        context.dispatch('getMyGroups');
+        context.dispatch('getAllGroups');
+      })
+    },
     signUp (context, payload) {
       var header = axiosPostHeader(
         context.state.db + '/user', {

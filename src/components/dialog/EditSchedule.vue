@@ -159,6 +159,15 @@
       this.description = this.event.description
       this.duration = this.event.duration
     },
+    beforeUpdate () {
+      this.dateFormatted = this.formatDate(this.date)
+      this.date = this.event.start_date
+      this.time = this.event.start_time
+      this.group = this.event.groupname
+      this.sid = this.event.sid
+      this.description = this.event.description
+      this.duration = this.event.duration
+    },
     props: {
       event: Object,
       close: Boolean,
